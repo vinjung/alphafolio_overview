@@ -18,6 +18,7 @@
 - [서비스 소개](#서비스-소개)
 - [핵심 차별점](#핵심-차별점)
 - [시스템 아키텍처](#시스템-아키텍처)
+- [데이터베이스 스키마](#데이터베이스-스키마)
 - [프로젝트 구조](#프로젝트-구조)
 - [기술 스택](#기술-스택)
 - [라이선스](#라이선스)
@@ -45,13 +46,13 @@
 
 ### 솔루션
 
-> **"결론 -> 설명 -> 근거" 구조의 시나리오 기반 투자 전략 제공**
+> **"시나리오 기반 투자 전략 결론 -> 설명 -> 근거" 구조의 시나리오 기반 투자 전략 제공**
 
 | 단계 | 설명 |
 |------|------|
 | **결론** | 명확한 투자 판단 (매수/매도/관망) |
 | **설명** | 판단의 이유와 논리적 근거 |
-| **근거** | 데이터와 분석 결과 (차트, 수치, 퀀트 점수) |
+| **근거** | 데이터와 분석 결과 (차트, 퀀트 분석, 정성적 데이터 분석) |
 
 ---
 
@@ -142,41 +143,18 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    subgraph Client[Client Layer]
-        Web[Next.js 15<br/>Mobile-First PWA]
-    end
+    A[1. 데이터 수집<br/>Data Collector] --> B[2. 퀀트 분석<br/>Quant Engine]
+    B --> C[3. 에이전트 동작<br/>Multi-Agent]
 
-    subgraph API[API Layer]
-        ChatAPI[Chat API<br/>FastAPI + LangGraph]
-    end
+    C --> D[포트폴리오 생성]
+    C --> E[포트폴리오 리밸런싱]
+    C --> F[AI 비서]
 
-    subgraph AI[AI Layer]
-        RAG[RAG Pipeline<br/>3-Layer Architecture]
-        Agents[Multi-Agent System<br/>Market/Stock/Analysis]
-        Quant[Quant Engine<br/>73 Strategies]
-    end
+    D --> G[5. 프론트엔드<br/>Next.js PWA]
+    E --> G
+    F --> G
 
-    subgraph Data[Data Layer]
-        Collector[Data Collector<br/>KRX, DART, Alpha Vantage]
-        Portfolio[Portfolio Engine<br/>7-Step Pipeline]
-    end
-
-    subgraph Storage[Storage Layer]
-        PG[(PostgreSQL<br/>52+ Tables)]
-        Chroma[(ChromaDB<br/>Vector Store)]
-        Redis[(Redis<br/>Stream)]
-    end
-
-    Web -->|SSE/WebSocket| ChatAPI
-    ChatAPI --> RAG
-    ChatAPI --> Agents
-    RAG --> PG
-    RAG --> Chroma
-    Agents --> Quant
-    Quant --> PG
-    Collector --> PG
-    Portfolio --> PG
-    ChatAPI --> Redis
+    G --> H[6. 사용자]
 ```
 
 ### 데이터 흐름
@@ -212,6 +190,253 @@ flowchart LR
 
 ---
 
+## 데이터베이스 스키마
+
+PostgreSQL 기반 4개 레이어로 구성된 데이터 모델입니다.
+
+### 회원/서비스
+
+```mermaid
+erDiagram
+    users ||--o{ sessions : has
+    users ||--o| user_limits : has
+    users ||--o{ favorites : has
+    users ||--o{ chat_sessions : creates
+    chat_sessions ||--o{ chat_messages : contains
+
+    users {
+        uuid id PK
+        varchar oauth_provider
+        varchar oauth_id
+        varchar nickname
+        varchar email
+        boolean is_active
+        timestamptz created_at
+    }
+
+    sessions {
+        text id PK
+        uuid user_id FK
+        timestamptz expires_at
+        varchar ip_address
+    }
+
+    user_limits {
+        uuid id PK
+        uuid user_id FK
+        integer daily_chat_limit
+        varchar limit_type
+    }
+
+    favorites {
+        uuid id PK
+        uuid user_id FK
+        varchar item_type
+        varchar item_id
+    }
+
+    chat_sessions {
+        uuid id PK
+        uuid user_id FK
+        text title
+        varchar chat_service_type
+        integer message_count
+    }
+
+    chat_messages {
+        uuid id PK
+        uuid session_id FK
+        text role
+        text content
+        integer tokens_used
+    }
+```
+
+### 한국 주식
+
+```mermaid
+erDiagram
+    kr_stock_basic ||--o{ kr_intraday_total : has
+    kr_stock_basic ||--o{ kr_indicators : has
+    kr_stock_basic ||--o{ kr_stock_grade : has
+    kr_stock_basic ||--o| kr_stock_detail : has
+
+    kr_stock_basic {
+        varchar symbol PK
+        varchar stock_name
+        varchar exchange
+        date listed_date
+        bigint listed_shares
+    }
+
+    kr_intraday_total {
+        varchar symbol FK
+        date date
+        decimal close
+        decimal change_rate
+        bigint volume
+        bigint trading_value
+        decimal market_cap
+    }
+
+    kr_indicators {
+        varchar symbol FK
+        date date
+        decimal rsi
+        decimal macd
+        decimal bollinger_upper
+        decimal bollinger_lower
+    }
+
+    kr_stock_grade {
+        varchar symbol FK
+        date date
+        varchar final_grade
+        decimal final_score
+        decimal value_score
+        decimal quality_score
+        decimal momentum_score
+        json strategy
+    }
+
+    kr_stock_detail {
+        varchar symbol FK
+        varchar industry
+        varchar sector
+        varchar ceo_name
+    }
+```
+
+### 미국 주식
+
+```mermaid
+erDiagram
+    us_stock_basic ||--o{ us_daily : has
+    us_stock_basic ||--o{ us_indicators : has
+    us_stock_basic ||--o{ us_stock_grade : has
+    us_stock_basic ||--o{ us_income_statement : has
+    us_stock_basic ||--o{ us_balance_sheet : has
+
+    us_stock_basic {
+        varchar symbol PK
+        text stock_name
+        varchar exchange
+        varchar sector
+        varchar industry
+        bigint market_cap
+        decimal per
+        decimal beta
+    }
+
+    us_daily {
+        varchar symbol FK
+        date date
+        decimal close
+        decimal change_rate
+        bigint volume
+    }
+
+    us_indicators {
+        varchar symbol FK
+        date date
+        decimal rsi
+        decimal macd
+        decimal bollinger_upper
+        decimal atr
+    }
+
+    us_stock_grade {
+        varchar symbol FK
+        date date
+        varchar final_grade
+        decimal final_score
+        decimal value_score
+        decimal quality_score
+        decimal momentum_score
+        json strategy
+    }
+
+    us_income_statement {
+        varchar symbol FK
+        date fiscal_date_ending
+        bigint total_revenue
+        bigint operating_income
+        bigint net_income
+    }
+
+    us_balance_sheet {
+        varchar symbol FK
+        date fiscal_date_ending
+        bigint total_assets
+        bigint total_liabilities
+        bigint total_shareholder_equity
+    }
+```
+
+### 포트폴리오
+
+```mermaid
+erDiagram
+    portfolio_master ||--o{ portfolio_holdings : contains
+    portfolio_master ||--o{ portfolio_transactions : records
+    portfolio_master ||--o{ portfolio_rebalancing : schedules
+    portfolio_master ||--o{ portfolio_daily_performance : tracks
+
+    portfolio_master {
+        varchar portfolio_id PK
+        varchar portfolio_name
+        varchar status
+        varchar country
+        varchar risk_level
+        bigint initial_budget
+        integer target_stock_count
+    }
+
+    portfolio_holdings {
+        serial id PK
+        varchar portfolio_id FK
+        varchar symbol
+        varchar stock_name
+        integer shares
+        decimal avg_price
+        decimal current_weight
+        decimal unrealized_pnl
+    }
+
+    portfolio_transactions {
+        serial transaction_id PK
+        varchar portfolio_id FK
+        varchar symbol
+        varchar transaction_type
+        date transaction_date
+        integer shares
+        decimal price
+        decimal realized_pnl
+    }
+
+    portfolio_rebalancing {
+        serial rebalancing_id PK
+        varchar portfolio_id FK
+        varchar rebalancing_type
+        varchar status
+        date planned_date
+        integer stocks_added
+        integer stocks_removed
+    }
+
+    portfolio_daily_performance {
+        serial id PK
+        varchar portfolio_id FK
+        date date
+        decimal total_value
+        decimal daily_return
+        decimal cumulative_return
+        decimal sharpe_ratio_30d
+    }
+```
+
+---
+
 ## 프로젝트 구조
 
 **떡상**은 6개의 독립적인 저장소로 구성된 멀티레포 아키텍처입니다.
@@ -222,7 +447,7 @@ flowchart LR
 | [**alphafolio_data**](https://github.com/vinjung/alphafolio_data) | 데이터 자동 수집 & 지표 계산 | FastAPI, asyncpg, Cloud Scheduler |
 | [**alphafolio_chat**](https://github.com/vinjung/alphafolio_chat) | 주식 투자 전략 전문 LLM (RAG) | LangChain, LangGraph, ChromaDB |
 | [**alphafolio_quant**](https://github.com/vinjung/alphafolio_quant) | 멀티팩터 퀀트 분석 엔진 | NumPy, Pandas, 73 Strategies |
-| [**alphafolio_stock_agents**](https://github.com/vinjung/alphafolio_stock_agents) | 종목 투자 전략 Multi-Agent AI | LangGraph, Task-driven Architecture |
+| [**alphafolio_stock_agent**](https://github.com/vinjung/alphafolio_stock_agent) | 종목 투자 전략 Multi-Agent AI | LangGraph, Task-driven Architecture |
 | [**alphafolio_portfolio**](https://github.com/vinjung/alphafolio_portfolio) | 포트폴리오 생성 & 리밸런싱 엔진 | Risk Parity, VaR Management |
 
 ### 각 저장소별 핵심 기능
