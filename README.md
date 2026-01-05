@@ -9,7 +9,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
 ![Railway](https://img.shields.io/badge/Railway-0B0D0E?logo=railway&logoColor=white)
 
-**시나리오 기반 주식 투자 전략 서비스**
+## 포트폴리오 운영 시나리오 기반 주식 투자 전략 서비스
 
 ---
 
