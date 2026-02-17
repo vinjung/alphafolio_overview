@@ -906,8 +906,8 @@ erDiagram
 | 저장소 | 설명 | 기술 스택 |
 |--------|------|-----------|
 | [**overview**](https://github.com/vinjung/alphafolio_overview) | 프로젝트 설명 | - |
-| [**client**](https://github.com/vinjung/alphafolio_client-api) | Frontend (UI/UX) | Next.js 15, React 19, Tailwind CSS 4, Redis |
-| [**api**](https://github.com/vinjung/alphafolio_client-api) | AI 채팅 백엔드 API | FastAPI, LangGraph, ChromaDB, Fine-tuned GPT |
+| [**client**](https://github.com/vinjung/alphafolio_client) | Frontend (UI/UX) | Next.js 15, React 19, Tailwind CSS 4, Redis |
+| [**api**](https://github.com/vinjung/alphafolio_api) | AI 채팅 백엔드 API | FastAPI, LangGraph, ChromaDB, Fine-tuned GPT |
 | [**data**](https://github.com/vinjung/alphafolio_data) | 데이터 자동 수집 & 지표 계산 | FastAPI, asyncpg, Cloud Scheduler |
 | [**chat**](https://github.com/vinjung/alphafolio_chat) | AI 비서 개발환경 | LangChain, LangGraph, ChromaDB |
 | [**quant**](https://github.com/vinjung/alphafolio_quant) | 멀티팩터 퀀트 분석 엔진 | NumPy, SciPy, hmmlearn |
