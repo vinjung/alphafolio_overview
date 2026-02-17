@@ -10,13 +10,11 @@
 ![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)
 ![Railway](https://img.shields.io/badge/Railway-0B0D0E?logo=railway&logoColor=white)
 
-## AI Investment OS
-
 ---
 
 ## 목차
 
-- [AI Investment OS](#ai-investment-os)
+- [AI Investment OS](#ai-investment-os--the-operating-system-for-retail-capital)
 - [핵심 차별점](#핵심-차별점)
 - [시스템 아키텍처](#시스템-아키텍처)
 - [데이터 파이프라인](#데이터-파이프라인)
@@ -31,138 +29,60 @@
 
 ---
 
-## AI Investment OS
+## AI Investment OS — The Operating System for Retail Capital
 
-### The Operating System for Retail Capital
+개인 투자자를 위한 **설명 가능한(Explainable) 적응형 퀀트 기반 투자 운영체제**.
 
-AI Investment OS는 개인 투자자를 위한
-**설명 가능한(Explainable) 적응형 퀀트 기반 투자 운영체제**입니다.
+> 우리는 투자 정보를 제공하지 않습니다. **개인 자본을 구조적으로 운영**합니다.
 
-> 우리는 투자 정보를 제공하지 않습니다.
-> 우리는 **개인 자본을 구조적으로 운영**합니다.
-
-### 1. Service Overview
+### Service Overview
 
 AI Investment OS는 다음을 통합합니다:
 
-- **Market-Aware Adaptive Quant Engine**
+- Market-Aware Adaptive Quant Engine
 - 전략 자동 생성 및 리밸런싱 설계
 - 리스크 예산 자동 조정
 - 대화형 인터페이스 기반 포트폴리오 설계
 - 사용자 승인 기반 반자동 실행 구조
 
-> 이 시스템은 하나의 펀드가 아닙니다.
-> 각 사용자의 독립 계좌 위에서 작동하는 **분산형 투자 OS**입니다.
+### Problem
 
-### 2. Problem Definition
-
-**개인 투자에는 '운영체제'가 없다**
-
-현재 시장에는 리서치 리포트, 데이터 플랫폼, 뉴스 서비스, 자동매매 툴, 유튜브/커뮤니티 분석이 존재합니다.
-그러나 이들은 모두 **정보 제공자**입니다. 최종 결정과 리스크는 개인이 감당해야 합니다.
-
-**구조적 문제**
+개인 투자에는 '운영체제'가 없습니다. 리서치·데이터·자동매매 등 정보 제공자는 많지만, 최종 결정과 리스크는 개인이 감당합니다.
 
 | 문제 | 설명 |
 |------|------|
-| **정보 과잉** | 의사결정 피로 |
-| **전략의 단편화** | 일관성 없는 투자 판단 |
-| **리스크 관리 부재** | 감정 개입, 일관성 없는 손절/익절 |
-| **레짐 변화 대응 불가** | 시장 국면 전환에 대한 구조적 대응 부재 |
+| 정보 과잉 | 의사결정 피로 |
+| 전략 단편화 | 일관성 없는 투자 판단 |
+| 리스크 관리 부재 | 감정 개입, 비일관적 손절/익절 |
+| 레짐 변화 대응 불가 | 시장 국면 전환에 구조적 대응 부재 |
 
-> 결과적으로 개인은 질문을 반복합니다:
-> **"그래서 지금 내 자본은 어떻게 운영되어야 하는가?"**
+### Solution: Core Architecture
 
-### 3. Solution: AI Investment OS
+| 구성 요소 | 핵심 기능 |
+|-----------|-----------|
+| **Explainable Adaptive Quant Engine** | 4-Factor 구조, 동적 가중치, Market Regime 분류, 리스크 예산 자동 조절. 모든 의사결정은 설명 가능 |
+| **Capacity-Aware Design** | 소형 AUM 최적화, 독립 계좌 분산 실행, 유동성 필터 자동 조정. 확장 = 사용자 수 증가 |
+| **Strategy Diversification** | 멀티 전략, 리스크 프로파일 기반 조합, 과밀도 감지 시 자동 조정 |
+| **Semi-Automated Execution** | 포트폴리오 자동 설계 → 리밸런싱 제안 → 리스크 경고 → **사용자 승인 후 실행** |
 
-> 우리는 도구가 아니라 **운영 구조**를 제공합니다.
+### Target Users
 
-**Core Architecture**
+- **초기**: 한국/미국 개인 투자자(초보~중수), 바쁜 직장인, 구조화·감정 제거를 원하는 사용자
+- **확장**: 멀티 전략 고수 투자자, 계량적 리스크 관리 관심자
 
-**1. Explainable Adaptive Quant Engine**
+### Technology Roadmap
 
-- 4-Factor Multi-Factor 구조
-- 동적 가중치 조정
-- Market Regime 분류
-- 팩터 상관관계 반영
-- 리스크 예산 자동 조절
+| Phase | 내용 |
+|-------|------|
+| **1 ← 현재** | 한국/미국 퀀트 엔진 + AI 비서 v1 (Strategy OS) |
+| **2** | 멀티 전략 기반 유저별 맞춤 전략 (Behavior Learning OS) |
+| **3** | 대화형 자산 관리 UX (Interface OS, Execution OS) |
+| **4** | 미국 직접 진출 및 글로벌 자산 배분 (Data OS) |
 
-모든 의사결정은 설명 가능합니다: 종목 편입 근거, 팩터 기여도, 레짐 판단 근거, 리스크 계산 방식.
+### Philosophy
 
-> 우리는 블랙박스를 사용하지 않습니다.
-
-**2. Capacity-Aware Design (AUM Dilution 방지 구조)**
-
-기관형 전략의 문제는 자본 규모가 커질수록 알파가 희석된다는 점입니다.
-
-AI Investment OS는:
-
-- 개인 자본 (소형 AUM) 최적화
-- 독립 계좌 기반 분산 실행
-- 유동성 필터 자동 조정
-- 전략 수용 가능 자본(capacity) 추정
-- 실행 시점 분산
-
-> 확장은 자본의 집합이 아니라 **사용자 수의 증가**입니다.
-
-**3. Strategy Diversification Layer**
-
-쏠림 방지를 위해:
-
-- 멀티 전략 구조
-- 사용자 리스크 프로파일 기반 전략 조합
-- Popularity Pressure Control (과밀도 감지 시 자동 조정)
-- Dynamic Universe Expansion
-
-> 우리는 알파를 복제하지 않습니다.
-> 우리는 **알파를 분산**시킵니다.
-
-**4. Semi-Automated Execution**
-
-- 포트폴리오 자동 설계
-- 리밸런싱 자동 제안
-- 리스크 경고
-- 사용자 승인 기반 실행
-
-> 완전 자동이 아닌 **통제된 자동화(Controlled Automation)**를 지향합니다.
-
-### 4. Target Users
-
-**Initial Target**
-
-- 한국 및 미국 개인 투자자 (초보 ~ 중수)
-- 바쁜 직장인
-- 투자 프로세스를 구조화하고 싶은 사용자
-- 감정 개입을 줄이고 싶은 사용자
-
-**Expansion Target**
-
-- 멀티 전략 운용을 원하는 고수 투자자
-- 계량적 리스크 관리에 관심 있는 사용자
-
-### 5. Technology Roadmap
-
-| Phase | 단계 | 내용 |
-|-------|------|------|
-| **Phase 1** | 인프라 구축 | 한국/미국 퀀트 엔진 + AI 비서 v1 / Strategy OS |
-| **Phase 2** | 초개인화 완성 | 멀티 전략 기반 유저별 맞춤 전략 / Behavior Learning OS |
-| **Phase 3** | UX 혁신 | 대화형 자산 관리 (Conversational UX) / Interface OS, Execution OS |
-| **Phase 4** | 글로벌 확장 | 미국 직접 진출 및 글로벌 자산 배분 / Data OS |
-
-
-> 우리는 전략을 생성하는 AI가 아니라
-> **전략을 진화시키는 엔진**을 구축합니다.
-
-### 6. Philosophy
-
-우리는 펀드가 아닙니다.
-우리는 브로커리지도 아닙니다.
-우리는 분석 툴도 아닙니다.
-
-**우리는 개인 자본 위에서 작동하는 투자 운영체제입니다.**
-
-> 그리고 우리의 목표는 단순합니다.
-> **의사결정 피로감의 종말.**
+펀드도, 브로커리지도, 분석 툴도 아닙니다.
+**개인 자본 위에서 작동하는 투자 운영체제** — 목표는 **의사결정 피로감의 종말**.
 
 ---
 
